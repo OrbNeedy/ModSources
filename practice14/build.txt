@@ -1,3 +1,0 @@
-displayName = Practice 1.4
-author = Reb
-version = 0.1
