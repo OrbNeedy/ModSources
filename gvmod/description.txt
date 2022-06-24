@@ -1,5 +1,7 @@
 Gunvolt Mod aims to create an experience based on the Gunvolt series.
 
+v0.3.3
+Added a hotkey to change the position of the bar, made the updates to SP more complex to account for overheating, increased SP regeneration while not overheating, and added a visual indicator when overheting.
 v0.3.2
 Fixed flashfield having the wrong radius, buffed it to be 11 tiles, and added a bar to see the EP.
 v0.2.1

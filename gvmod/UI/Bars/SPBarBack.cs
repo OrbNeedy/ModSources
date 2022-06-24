@@ -8,19 +8,18 @@ namespace gvmod.UI.Bars
 {
     public class SPBarBack : UIElement
     {
+        public int x = (int)(Main.screenWidth * 0.55f);
+        public int y = (int)(Main.screenHeight * 0.02f);
         public Color color = Color.White;
-        public Texture2D texture = (Texture2D)ModContent.Request<Texture2D>("gvmod/Assets/Bars/SPBar", ReLogic.Content.AssetRequestMode.ImmediateLoad);
-        public Vector2 position = new Vector2(Main.screenWidth * 0.55f, Main.screenHeight * 0.02f);
+        public Texture2D texture = (Texture2D)ModContent.Request<Texture2D>("gvmod/Assets/Bars/SPBar", 
+            ReLogic.Content.AssetRequestMode.ImmediateLoad);
 
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, position, color);
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-            
+            Width.Set(120, 100);
+            Height.Set(30, 100);
+            spriteBatch.Draw(texture, new Vector2(x, y), color);
         }
     }
 }

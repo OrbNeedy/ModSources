@@ -2,14 +2,16 @@
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.UI;
 using Terraria;
+using Terraria.GameContent.UI.Elements;
 using Terraria.ModLoader;
 using gvmod.Common.Players;
-using System;
-//new Vector2(Main.screenWidth * 0.6f, Main.screenHeight * 0.3f)
+
 namespace gvmod.UI.Bars
 {
     public class SPBarFill : UIElement
     {
+        public int x = (int)(Main.screenWidth * 0.55f) + 4;
+        public int y = (int)(Main.screenHeight * 0.02f) + 1;
         public int height = 30;
         public int width = 112;
         public Color color = Color.White;
@@ -22,14 +24,27 @@ namespace gvmod.UI.Bars
 
         public override void Draw(SpriteBatch spriteBatch)
         {
+            Width.Set(30, 100);
+            Height.Set(112, 100);
             spriteBatch.Draw(texture, 
-                new Rectangle((int)(Main.screenWidth * 0.55f) + 4, (int)(Main.screenHeight * 0.02f), width, height), 
+                new Rectangle(x, y, width, height), 
                 color);
         }
 
         public override void Update(GameTime gameTime)
         {
+            if (IsMouseHovering)
+            {
+                Main.hoverItemName = "?/300";
+            }
             AdeptPlayer player = Main.LocalPlayer.GetModPlayer<AdeptPlayer>();
+            if (player.GetOverheatedState())
+            {
+                color = Color.Red;
+            } else
+            {
+                color = Color.White;
+            }
             width = (int)(player.SeptimalPowerToFraction() * 112);
             base.Update(gameTime);
         }

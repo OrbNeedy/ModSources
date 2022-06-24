@@ -25,13 +25,23 @@ namespace gvmod.Common.Systems
             _spBar?.Update(gameTime);
         }
 
+        internal void ShowUI()
+        {
+            _spBar.SetState(spBar);
+        }
+
+        internal void HideUI()
+        {
+            _spBar.SetState(null);
+        }
+
         public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
         {
             int mouseTextIndex = layers.FindIndex(layer => layer.Name == "Vanilla: Mouse Text");
             if (mouseTextIndex != -1)
             {
                 layers.Insert(mouseTextIndex, new LegacyGameInterfaceLayer(
-                    "gvmod: Septimal Power.",
+                    "YourMod: A Description",
                     delegate
                     {
                         _spBar.Draw(Main.spriteBatch, new GameTime());

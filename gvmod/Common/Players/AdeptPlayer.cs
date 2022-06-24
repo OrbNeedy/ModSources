@@ -14,28 +14,29 @@ namespace gvmod.Common.Players
         private float maxSeptimalPower = 300;
         private float septimalPower = 300;
 
-        private bool isUsingPrimary;
+        private bool isUsingAbility;
+        private bool isOverheated = false;
         private int timeSinceAbility = 0;
         public override void ProcessTriggers(TriggersSet triggersSet)
         {
             if (KeybindSystem.primaryAbility.JustPressed)
             {
-                isUsingPrimary = true;
+                isUsingAbility = true;
             }
             if (KeybindSystem.primaryAbility.JustReleased)
             {
-                isUsingPrimary = false;
+                isUsingAbility = false;
             }
             if (KeybindSystem.secondaryAbility.JustPressed)
             {
-                Main.NewText("Current septimal power: " + septimalPower);
-                Main.NewText("Max septimal power: " + maxSeptimalPower);
+                Main.NewText("Current septimal power: " + (int)septimalPower);
+                Main.NewText("Max septimal power: " + (int)maxSeptimalPower);
             }
         }
 
         public override void PostUpdateMiscEffects()
         {
-            if (isUsingPrimary && septimalPower > 0)
+            if (isUsingAbility && !isOverheated)
             {
                 Vector2 pos = new Vector2(128);
                 for (int i = 0; i < 360; i++)
@@ -48,7 +49,7 @@ namespace gvmod.Common.Players
 
         public override void PostUpdate()
         {
-            if (isUsingPrimary && septimalPower > 0)
+            if (isUsingAbility && !isOverheated)
             {
                 List<NPC> closeNPCs = GetNPCsInRadius(176);
                 foreach (NPC npc in closeNPCs)
@@ -82,18 +83,42 @@ namespace gvmod.Common.Players
 
         public void UpdateSeptimalPower()
         {
-            if (isUsingPrimary)
+            if (isUsingAbility && !isOverheated)
             {
                 if (septimalPower > 0) septimalPower--;
                 timeSinceAbility = 0;
             }
-            if (!isUsingPrimary) timeSinceAbility++;
+            if (!isUsingAbility || isOverheated) timeSinceAbility++;
             if (timeSinceAbility >= 60)
             {
-                septimalPower++;
+                if (!isOverheated)
+                {
+                    septimalPower += 2;
+                } else
+                {
+                    septimalPower++;
+                }
                 if (septimalPower > maxSeptimalPower) septimalPower = maxSeptimalPower;
                 timeSinceAbility = 60;
             }
+            if (septimalPower <= 0)
+            {
+                isOverheated = true;
+            }
+            if (septimalPower >= maxSeptimalPower)
+            {
+                isOverheated = false;
+            }
+        }
+
+        public int GetSeptimalPower()
+        {
+            return (int)septimalPower;
+        }
+
+        public bool GetOverheatedState()
+        {
+            return isOverheated;
         }
     }
 }
