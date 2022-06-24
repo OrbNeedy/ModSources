@@ -1,3 +1,6 @@
 Gunvolt Mod aims to create an experience based on the Gunvolt series.
 
-Right now, there is nothing.
+v0.2.0
+Added flashfield, dealing constant damage to enemies around the player.
+v0.1.0
+Added electric whip as a summoner weapon, it electrifies targets.

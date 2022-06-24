@@ -30,7 +30,7 @@ namespace gvmod.Common.Players
         {
             if (isUsingPrimary)
             {
-                Vector2 pos = new Vector2(80);
+                Vector2 pos = new Vector2(128);
                 for (int i = 0; i < 360; i++)
                 {
                     pos = pos.RotatedBy(MathHelper.ToRadians(1));
@@ -41,7 +41,7 @@ namespace gvmod.Common.Players
 
         public override void PostUpdate()
         {
-            List<NPC> closeNPCs = getNPCsInRadius(80);
+            List<NPC> closeNPCs = getNPCsInRadius(128);
             foreach (NPC npc in closeNPCs)
             {
                 if (!npc.friendly)
