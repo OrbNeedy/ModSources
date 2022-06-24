@@ -11,8 +11,8 @@ namespace gvmod.Common.Players
 {
     public class AdeptPlayer : ModPlayer
     {
-        private int maxSeptimalPower = 300;
-        private int septimalPower = 300;
+        private float maxSeptimalPower = 300;
+        private float septimalPower = 300;
 
         private bool isUsingPrimary;
         private int timeSinceAbility = 0;
@@ -73,6 +73,11 @@ namespace gvmod.Common.Players
                 closeNPCs.Add(Main.npc[i]);
             }
             return closeNPCs;
+        }
+
+        public float SeptimalPowerToFraction()
+        {
+            return septimalPower / maxSeptimalPower;
         }
 
         public void UpdateSeptimalPower()

@@ -27,11 +27,11 @@ namespace gvmod.Common.Systems
 
         public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
         {
-            int mouseTextIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Septimal power"));
+            int mouseTextIndex = layers.FindIndex(layer => layer.Name == "Vanilla: Mouse Text");
             if (mouseTextIndex != -1)
             {
                 layers.Insert(mouseTextIndex, new LegacyGameInterfaceLayer(
-                    "Gunvolt Mod: Septimal Power",
+                    "gvmod: Septimal Power.",
                     delegate
                     {
                         _spBar.Draw(Main.spriteBatch, new GameTime());
