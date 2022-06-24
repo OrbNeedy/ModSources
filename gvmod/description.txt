@@ -1,5 +1,7 @@
 Gunvolt Mod aims to create an experience based on the Gunvolt series.
 
+v0.3.2
+Fixed flashfield having the wrong radius, buffed it to be 11 tiles, and added a bar to see the EP.
 v0.2.1
 Buffed flashfield duration by increasing total SP.
 v0.2.0

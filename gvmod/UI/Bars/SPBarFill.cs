@@ -23,7 +23,7 @@ namespace gvmod.UI.Bars
         public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture, 
-                new Rectangle((int)(Main.screenWidth * 0.6f), (int)(Main.screenHeight * 0.3f), width, height), 
+                new Rectangle((int)(Main.screenWidth * 0.55f) + 4, (int)(Main.screenHeight * 0.02f), width, height), 
                 color);
         }
 

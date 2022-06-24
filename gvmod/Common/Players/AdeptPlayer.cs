@@ -50,7 +50,7 @@ namespace gvmod.Common.Players
         {
             if (isUsingPrimary && septimalPower > 0)
             {
-                List<NPC> closeNPCs = GetNPCsInRadius(128);
+                List<NPC> closeNPCs = GetNPCsInRadius(176);
                 foreach (NPC npc in closeNPCs)
                 {
                     if (!npc.friendly)

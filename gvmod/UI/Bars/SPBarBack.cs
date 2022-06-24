@@ -10,7 +10,7 @@ namespace gvmod.UI.Bars
     {
         public Color color = Color.White;
         public Texture2D texture = (Texture2D)ModContent.Request<Texture2D>("gvmod/Assets/Bars/SPBar", ReLogic.Content.AssetRequestMode.ImmediateLoad);
-        public Vector2 position = new Vector2(Main.screenWidth * 0.6f, Main.screenHeight * 0.3f);
+        public Vector2 position = new Vector2(Main.screenWidth * 0.55f, Main.screenHeight * 0.02f);
 
 
         public override void Draw(SpriteBatch spriteBatch)
