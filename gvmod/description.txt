@@ -1,5 +1,7 @@
 Gunvolt Mod aims to create an experience based on the Gunvolt series.
 
+v0.2.1
+Buffed flashfield duration by increasing total SP.
 v0.2.0
 Added flashfield, dealing constant damage to enemies around the player.
 v0.1.0

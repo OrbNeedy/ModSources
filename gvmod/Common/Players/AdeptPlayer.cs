@@ -11,9 +11,11 @@ namespace gvmod.Common.Players
 {
     public class AdeptPlayer : ModPlayer
     {
-        private int maxSeptimalPower;
-        private int septimalPower;
+        private int maxSeptimalPower = 300;
+        private int septimalPower = 300;
+
         private bool isUsingPrimary;
+        private int timeSinceAbility = 0;
         public override void ProcessTriggers(TriggersSet triggersSet)
         {
             if (KeybindSystem.primaryAbility.JustPressed)
@@ -24,11 +26,16 @@ namespace gvmod.Common.Players
             {
                 isUsingPrimary = false;
             }
+            if (KeybindSystem.secondaryAbility.JustPressed)
+            {
+                Main.NewText("Current septimal power: " + septimalPower);
+                Main.NewText("Max septimal power: " + maxSeptimalPower);
+            }
         }
 
         public override void PostUpdateMiscEffects()
         {
-            if (isUsingPrimary)
+            if (isUsingPrimary && septimalPower > 0)
             {
                 Vector2 pos = new Vector2(128);
                 for (int i = 0; i < 360; i++)
@@ -41,17 +48,21 @@ namespace gvmod.Common.Players
 
         public override void PostUpdate()
         {
-            List<NPC> closeNPCs = getNPCsInRadius(128);
-            foreach (NPC npc in closeNPCs)
+            if (isUsingPrimary && septimalPower > 0)
             {
-                if (!npc.friendly)
+                List<NPC> closeNPCs = GetNPCsInRadius(128);
+                foreach (NPC npc in closeNPCs)
                 {
-                    npc.AddBuff(ModContent.BuffType<AzureElectrifiedDebuff>(), 10);
+                    if (!npc.friendly)
+                    {
+                        npc.AddBuff(ModContent.BuffType<AzureElectrifiedDebuff>(), 10);
+                    }
                 }
             }
+            UpdateSeptimalPower();
         }
 
-        public List<NPC> getNPCsInRadius(int radius)
+        public List<NPC> GetNPCsInRadius(int radius)
         {
             var closeNPCs = new List<NPC>();
             for (int i = 0; i < Main.npc.Length; i++)
@@ -62,6 +73,22 @@ namespace gvmod.Common.Players
                 closeNPCs.Add(Main.npc[i]);
             }
             return closeNPCs;
+        }
+
+        public void UpdateSeptimalPower()
+        {
+            if (isUsingPrimary)
+            {
+                if (septimalPower > 0) septimalPower--;
+                timeSinceAbility = 0;
+            }
+            if (!isUsingPrimary) timeSinceAbility++;
+            if (timeSinceAbility >= 60)
+            {
+                septimalPower++;
+                if (septimalPower > maxSeptimalPower) septimalPower = maxSeptimalPower;
+                timeSinceAbility = 60;
+            }
         }
     }
 }
