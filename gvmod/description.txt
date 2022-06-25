@@ -1,8 +1,23 @@
 Gunvolt Mod aims to create an experience based on the Gunvolt series.
 
-v0.3.3
-Added a hotkey to change the position of the bar, made the updates to SP more complex to account for overheating, increased SP regeneration while not overheating, and added a visual indicator when overheting.
+Septimas
+A power every player has, you get a different one at random each time you load.
+You can get:
+Azure Striker: A septima that right now, only allows the usage of a flashfield, which will damage enemies constantly, but be careful, you will overheat underwater.
+Azure Thunderclap: The same as Azure Striker, but stronger overall, and can also damage friendly NPCs, it has the same weakness.
+
+Every time you use a septima, you use up some sp, and if it reaches 0, you won't be able to use it until you cool down.
+Check mod controls, it's important.
+
+Multiplayer probably not supported.
+
+v0.4.1
+Initial release.
+Added a new septima, Azure Thunderclap, just a better version of the Azure Striker for now.
+Added weakness to water to both septimas.
 v0.3.2
+Added a hotkey to change the position of the bar, made the updates to SP more complex to account for overheating, increased SP regeneration while not overheating, and added a visual indicator when overheting.
+v0.3.1
 Fixed flashfield having the wrong radius, buffed it to be 11 tiles, and added a bar to see the EP.
 v0.2.1
 Buffed flashfield duration by increasing total SP.

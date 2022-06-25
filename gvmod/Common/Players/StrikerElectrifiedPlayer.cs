@@ -3,18 +3,18 @@ using Terraria.ModLoader;
 
 namespace gvmod.Common.Players
 {
-    public class AzureElectrifiedPlayer : ModPlayer
+    public class StrikerElectrifiedPlayer : ModPlayer
     {
-        public bool azureElectricityDebuff;
+        public bool strikerElectricityDebuff;
 
         public override void ResetEffects()
         {
-            azureElectricityDebuff = false;
+            strikerElectricityDebuff = false;
         }
 
         public override void UpdateBadLifeRegen()
         {
-            if (azureElectricityDebuff)
+            if (strikerElectricityDebuff)
             {
                 Player.lifeRegen -= 8;
             }

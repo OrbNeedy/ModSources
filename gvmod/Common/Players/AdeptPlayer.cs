@@ -1,22 +1,33 @@
 using Terraria;
 using Terraria.GameInput;
-using Terraria.ID;
 using Terraria.ModLoader;
 using gvmod.Common.Systems;
-using gvmod.Content.Buffs;
-using Microsoft.Xna.Framework;
-using System.Collections.Generic;
+using gvmod.Common.Players.Septimas;
 
 namespace gvmod.Common.Players
 {
     public class AdeptPlayer : ModPlayer
     {
-        private float maxSeptimalPower = 300;
-        private float septimalPower = 300;
+        protected Septima septima;
+        protected float maxSeptimalPower = 300;
+        protected float septimalPower = 300;
 
-        private bool isUsingAbility;
-        private bool isOverheated = false;
-        private int timeSinceAbility = 0;
+        protected bool isUsingAbility;
+        protected bool isOverheated = false;
+        protected int timeSinceAbility = 0;
+
+        public override void Initialize()
+        {
+            base.Initialize();
+            if (Main.rand.NextBool())
+            {
+                septima = new AzureThunderclap(Player, this);
+            } else
+            {
+                septima = new AzureStriker(Player, this);
+            }
+        }
+
         public override void ProcessTriggers(TriggersSet triggersSet)
         {
             if (KeybindSystem.primaryAbility.JustPressed)
@@ -31,6 +42,7 @@ namespace gvmod.Common.Players
             {
                 Main.NewText("Current septimal power: " + (int)septimalPower);
                 Main.NewText("Max septimal power: " + (int)maxSeptimalPower);
+                Main.NewText("Septima: " + septima.Name);
             }
         }
 
@@ -38,12 +50,7 @@ namespace gvmod.Common.Players
         {
             if (isUsingAbility && !isOverheated)
             {
-                Vector2 pos = new Vector2(128);
-                for (int i = 0; i < 360; i++)
-                {
-                    pos = pos.RotatedBy(MathHelper.ToRadians(1));
-                    if (i%6 == 0) Dust.NewDustDirect(Player.Center + pos, 10, 10, DustID.MartianSaucerSpark, 0, 0, 0, Color.DeepSkyBlue);
-                }
+                septima.FirstAbilityEffects();
             }
         }
 
@@ -51,29 +58,9 @@ namespace gvmod.Common.Players
         {
             if (isUsingAbility && !isOverheated)
             {
-                List<NPC> closeNPCs = GetNPCsInRadius(176);
-                foreach (NPC npc in closeNPCs)
-                {
-                    if (!npc.friendly)
-                    {
-                        npc.AddBuff(ModContent.BuffType<AzureElectrifiedDebuff>(), 10);
-                    }
-                }
+                septima.FirstAbility();
             }
             UpdateSeptimalPower();
-        }
-
-        public List<NPC> GetNPCsInRadius(int radius)
-        {
-            var closeNPCs = new List<NPC>();
-            for (int i = 0; i < Main.npc.Length; i++)
-            {
-                var npc = Main.npc[i];
-                if (npc == null) continue;
-                if (Vector2.Distance(npc.Center, Player.Center) > radius) continue;
-                closeNPCs.Add(Main.npc[i]);
-            }
-            return closeNPCs;
         }
 
         public float SeptimalPowerToFraction()
@@ -85,7 +72,7 @@ namespace gvmod.Common.Players
         {
             if (isUsingAbility && !isOverheated)
             {
-                if (septimalPower > 0) septimalPower--;
+                if (septimalPower > 0) septimalPower -= septima.SpUsage;
                 timeSinceAbility = 0;
             }
             if (!isUsingAbility || isOverheated) timeSinceAbility++;
@@ -114,6 +101,11 @@ namespace gvmod.Common.Players
         public int GetSeptimalPower()
         {
             return (int)septimalPower;
+        }
+
+        public void SetSeptimalPower(float sp)
+        {
+            this.septimalPower = sp;
         }
 
         public bool GetOverheatedState()

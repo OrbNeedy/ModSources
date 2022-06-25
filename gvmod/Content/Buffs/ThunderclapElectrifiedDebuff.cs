@@ -1,15 +1,15 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 using gvmod.Common.Players;
 
 namespace gvmod.Content.Buffs
 {
-    public class AzureElectrifiedDebuff : ModBuff
+    internal class ThunderclapElectrifiedDebuff : ModBuff
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Azure electricity");
-            Description.SetDefault("Getting shocked by an azure striker. \nResist with: Azure Striker.");
+            Description.SetDefault("Getting shocked by an azure thunderclap. \nResist with: Azure Thunderclap.");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;
@@ -18,12 +18,12 @@ namespace gvmod.Content.Buffs
 
         public override void Update(NPC npc, ref int buffIndex)
         {
-            npc.lifeRegen -= 12;
+            npc.lifeRegen -= 24;
         }
 
         public override void Update(Player player, ref int buffIndex)
         {
-            player.GetModPlayer<AzureElectrifiedPlayer>().azureElectricityDebuff = true;
+            player.GetModPlayer<ThunderclapElectrifiedPlayer>().thunderclapElectricityDebuff = true;
         }
     }
 }
