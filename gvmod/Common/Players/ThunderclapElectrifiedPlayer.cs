@@ -18,8 +18,6 @@ namespace gvmod.Common.Players
             if (thunderclapElectricityDebuff)
             {
                 Player.lifeRegen -= 16;
-                //TODO: Make this do knockback without making it a projectile
-                //Vector2 kb = Player.position.RotatedBy(MathHelper.ToRadians(180));
             }
         }
     }

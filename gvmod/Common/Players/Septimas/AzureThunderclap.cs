@@ -25,14 +25,6 @@ namespace gvmod.Common.Players.Septimas
 
         public override void FirstAbilityEffects()
         {
-            if (thunderclapPlayer.wet)
-            {
-                for (int i = 0; i < 15; i++)
-                {
-                    Dust.NewDust(thunderclapPlayer.position, 10, 10, DustID.Electric, 0, 0);
-                }
-                return;
-            }
             Vector2 pos = new Vector2(128);
             for (int i = 0; i < 360; i++)
             {

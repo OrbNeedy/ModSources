@@ -9,8 +9,10 @@ Azure Thunderclap: The same as Azure Striker, but stronger overall, and can also
 Every time you use a septima, you use up some sp, and if it reaches 0, you won't be able to use it until you cool down.
 Check mod controls, it's important.
 
-Multiplayer probably not supported.
+Multiplayer not supported.
 
+v0.4.2
+Added the ability for Azure Striker septima to slow their descent while using flashfield.
 v0.4.1
 Initial release.
 Added a new septima, Azure Thunderclap, just a better version of the Azure Striker for now.

@@ -3,6 +3,7 @@ using Terraria.GameInput;
 using Terraria.ModLoader;
 using gvmod.Common.Systems;
 using gvmod.Common.Players.Septimas;
+using Terraria.ID;
 
 namespace gvmod.Common.Players
 {
@@ -48,6 +49,13 @@ namespace gvmod.Common.Players
 
         public override void PostUpdateMiscEffects()
         {
+            if (septimalPower <= 0)
+            {
+                for (int i = 0; i < 20; i++)
+                {
+                    Dust.NewDust(Player.position, 10, 10, DustID.Electric, 0, 0);
+                }
+            }
             if (isUsingAbility && !isOverheated)
             {
                 septima.FirstAbilityEffects();
