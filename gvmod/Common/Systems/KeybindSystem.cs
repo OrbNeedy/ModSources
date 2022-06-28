@@ -11,13 +11,15 @@ namespace gvmod.Common.Systems
 		public override void Load()
 		{
 			primaryAbility = KeybindLoader.RegisterKeybind(Mod, "Primary septimal ability", "F");
-			secondaryAbility = KeybindLoader.RegisterKeybind(Mod, "Show SP stats", "Q");
+			secondaryAbility = KeybindLoader.RegisterKeybind(Mod, "Secondary septimal ability/cooldown time", "Q");
 			barReposition = KeybindLoader.RegisterKeybind(Mod, "Bar reposition mode(WIP)", "P");
 		}
 
 		public override void Unload()
 		{
 			primaryAbility = null;
+			secondaryAbility = null;
+			barReposition = null;
 		}
 	}
 }

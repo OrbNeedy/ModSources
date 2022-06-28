@@ -1,17 +1,16 @@
 ﻿using Terraria;
-using Terraria.GameInput;
 
 namespace gvmod.Common.Players
 {
     public abstract class Septima
     {
-        protected Player player = null;
-        protected AdeptPlayer adept = null;
-
-        public Septima(Player player, AdeptPlayer adept)
+        public AdeptPlayer adept;
+        public Player player;
+        public int secondaryDuration;
+        protected Septima(AdeptPlayer adept, Player player)
         {
-            this.player = player;
             this.adept = adept;
+            this.player = player;
         }
 
         public abstract void FirstAbilityEffects();
@@ -22,8 +21,14 @@ namespace gvmod.Common.Players
 
         public abstract void SecondAbility();
 
-        public abstract float SpUsage { get; }
+        public abstract void MiscEffects();
+
+        public abstract void Updates();
+
+        public abstract float SpUsage { get; set; }
 
         public abstract string Name { get; }
+
+        public abstract int SecondaryCooldownTime { get; set; }
     }
 }

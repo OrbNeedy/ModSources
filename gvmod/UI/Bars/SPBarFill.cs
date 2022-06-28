@@ -24,8 +24,8 @@ namespace gvmod.UI.Bars
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            Width.Set(30, 100);
-            Height.Set(112, 100);
+            Width.Set(30, 0);
+            Height.Set(112, 0);
             spriteBatch.Draw(texture, 
                 new Rectangle(x, y, width, height), 
                 color);
@@ -38,7 +38,7 @@ namespace gvmod.UI.Bars
                 Main.hoverItemName = "?/300";
             }
             AdeptPlayer player = Main.LocalPlayer.GetModPlayer<AdeptPlayer>();
-            if (player.GetOverheatedState())
+            if (player.isOverheated)
             {
                 color = Color.Red;
             } else

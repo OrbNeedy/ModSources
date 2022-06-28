@@ -18,7 +18,7 @@ namespace gvmod.Content.Buffs
 
         public override void Update(NPC npc, ref int buffIndex)
         {
-            npc.lifeRegen -= 12;
+            npc.lifeRegen -= 6;
         }
 
         public override void Update(Player player, ref int buffIndex)

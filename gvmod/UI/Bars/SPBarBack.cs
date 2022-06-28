@@ -15,10 +15,17 @@ namespace gvmod.UI.Bars
             ReLogic.Content.AssetRequestMode.ImmediateLoad);
 
 
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+            Width.Set(120, 1f);
+            Height.Set(30, 1f);
+            MaxWidth = new StyleDimension(120, 1f);
+            MaxHeight = new StyleDimension(30, 1f);
+        }
+
         public override void Draw(SpriteBatch spriteBatch)
         {
-            Width.Set(120, 100);
-            Height.Set(30, 100);
             spriteBatch.Draw(texture, new Vector2(x, y), color);
         }
     }

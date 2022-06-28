@@ -48,6 +48,10 @@ namespace gvmod.UI.Bars
                 }
                 text.SetText((int)(player.SeptimalPowerToFraction()*100) + "%");
             }*/
+            Width.Set(120, 1f);
+            Height.Set(30, 1f);
+            MaxWidth = new StyleDimension(120, 1f);
+            MaxHeight = new StyleDimension(30, 1f);
             base.Update(gameTime);
             spBarFill.x = spBarBack.x + 4;
             spBarFill.y = spBarBack.y;
@@ -71,7 +75,7 @@ namespace gvmod.UI.Bars
         {
             if (barReposition)
             {
-                if (spBarBack.IsMouseHovering || spBarFill.IsMouseHovering)
+                if (spBarBack.IsMouseHovering)
                 {
                     spBarBack.x = (int)evt.MousePosition.X - 60;
                     spBarBack.y = (int)evt.MousePosition.Y - 15;
