@@ -41,7 +41,7 @@ namespace gvmod.Common.Systems
             if (mouseTextIndex != -1)
             {
                 layers.Insert(mouseTextIndex, new LegacyGameInterfaceLayer(
-                    "YourMod: A Description",
+                    "gvmod: bars",
                     delegate
                     {
                         _spBar.Draw(Main.spriteBatch, new GameTime());

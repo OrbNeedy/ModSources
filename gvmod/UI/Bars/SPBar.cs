@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
+using Terraria.ModLoader;
 using Terraria.UI;
 
 
@@ -14,73 +15,60 @@ namespace gvmod.UI.Bars
         public int x = (int)(Main.screenWidth * 0.55f);
         public int y = (int)(Main.screenHeight * 0.02f);
         public SPBarBack spBarBack;
-        public SPBarFill spBarFill;
-        public AdeptPlayer player;
+        public UIImage spBarFill;
         public UIText text;
+        public Texture2D filling = ModContent.Request<Texture2D>("gvmod/Assets/Bars/SPBarBody", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
         public bool barReposition = false;
 
         public override void OnInitialize()
         {
             spBarBack = new SPBarBack();
-            spBarFill = new SPBarFill();
+            spBarBack.Left.Set(x, 0f);
+            spBarBack.Top.Set(y, 0f);
+            spBarBack.Width.Set(120, 0f);
+            spBarBack.Height.Set(30, 0f);
 
-            // TODO: Find out why no text works
-            /*text = new UIText("?%");
-            text.HAlign = 0.5f;
-            text.VAlign = 0.5f;
-            spBarFill.Append(text);*/
+            spBarFill = new UIImage(ModContent.Request<Texture2D>("gvmod/Assets/Bars/SPBarBody", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
+            spBarFill.Left.Set(x + 4, 0);
+            spBarFill.Top.Set(y, 0);
+            spBarBack.Width.Set(112, 0f);
+            spBarBack.Height.Set(30, 0f);
 
+            text = new UIText("0%", 0.8f);
+            text.Width.Set(x + 10, 0f);
+            text.Height.Set(y + 15, 0f);
+            text.Top.Set(y + 10, 0f);
+            text.Left.Set(x, 0f);
+
+            spBarBack.Append(spBarFill);
+            spBarBack.Append(text);
             Append(spBarBack);
-            Append(spBarFill);
+        }
+
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            base.Draw(spriteBatch);
+            var adept = Main.LocalPlayer.GetModPlayer<AdeptPlayer>();
+
+            if (adept.isOverheated)
+            {
+                spriteBatch.Draw(filling, new Rectangle((int)spBarBack.Left.Pixels + 4, (int)spBarBack.Top.Pixels, (int)(adept.SeptimalPowerToFraction() * 112), 30), Color.Red);
+            } else
+            {
+                spriteBatch.Draw(filling, new Rectangle((int)spBarBack.Left.Pixels + 4, (int)spBarBack.Top.Pixels, (int)(adept.SeptimalPowerToFraction() * 112), 30), Color.White);
+            }
         }
 
         public override void Update(GameTime gameTime)
         {
-            /*if (Main.LocalPlayer.GetModPlayer<AdeptPlayer>() != null)
-            {
-                player = Main.LocalPlayer.GetModPlayer<AdeptPlayer>();
-            }
-            if (player != null)
-            {
-                if (spBarBack.IsMouseHovering || spBarFill.IsMouseHovering)
-                {
-                    Main.hoverItemName = "SP: " + player.GetSeptimalPower();
-                }
-                text.SetText((int)(player.SeptimalPowerToFraction()*100) + "%");
-            }*/
-            Width.Set(120, 1f);
-            Height.Set(30, 1f);
-            MaxWidth = new StyleDimension(120, 1f);
-            MaxHeight = new StyleDimension(30, 1f);
             base.Update(gameTime);
-            spBarFill.x = spBarBack.x + 4;
-            spBarFill.y = spBarBack.y;
-            spBarBack.Update(gameTime);
-            spBarFill.Update(gameTime);
-            if (KeybindSystem.barReposition.JustPressed)
+            var adept = Main.LocalPlayer.GetModPlayer<AdeptPlayer>();
+            if (spBarBack.IsMouseHovering || spBarFill.IsMouseHovering)
             {
-                if (barReposition)
-                {
-                    barReposition = false;
-                    Main.NewText("Bar reposition mode Off");
-                } else
-                {
-                    barReposition = true;
-                    Main.NewText("Bar reposition mode On");
-                }
+                Main.hoverItemName = "SP: " + adept.septimalPower;
             }
+            text.SetText("SP: " + (int)adept.septimalPower + "/" + (int)adept.maxSeptimalPower);
         }
 
-        public override void MouseDown(UIMouseEvent evt)
-        {
-            if (barReposition)
-            {
-                if (spBarBack.IsMouseHovering)
-                {
-                    spBarBack.x = (int)evt.MousePosition.X - 60;
-                    spBarBack.y = (int)evt.MousePosition.Y - 15;
-                }
-            }
-        }
     }
 }

@@ -24,8 +24,6 @@ namespace gvmod.UI.Bars
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            Width.Set(30, 0);
-            Height.Set(112, 0);
             spriteBatch.Draw(texture, 
                 new Rectangle(x, y, width, height), 
                 color);

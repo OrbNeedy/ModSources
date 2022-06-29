@@ -6,20 +6,20 @@ namespace gvmod.Common.Systems
 	{
 		public static ModKeybind primaryAbility { get; private set; }
 		public static ModKeybind secondaryAbility { get; private set; }
-		public static ModKeybind barReposition { get; private set; }
+		public static ModKeybind abilityMenu { get; private set; }
 
 		public override void Load()
 		{
 			primaryAbility = KeybindLoader.RegisterKeybind(Mod, "Primary septimal ability", "F");
 			secondaryAbility = KeybindLoader.RegisterKeybind(Mod, "Secondary septimal ability/cooldown time", "Q");
-			barReposition = KeybindLoader.RegisterKeybind(Mod, "Bar reposition mode(WIP)", "P");
+			abilityMenu = KeybindLoader.RegisterKeybind(Mod, "Ability menu(Soon)", "P");
 		}
 
 		public override void Unload()
 		{
 			primaryAbility = null;
 			secondaryAbility = null;
-			barReposition = null;
+			abilityMenu = null;
 		}
 	}
 }

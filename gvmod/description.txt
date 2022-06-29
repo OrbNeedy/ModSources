@@ -11,6 +11,8 @@ Check mod controls, it's important.
 
 Multiplayer not supported.
 
+v0.5.1
+Minor UI changes.
 v0.5.0
 Added secondary abilities. Your septima gets saved now! Feel free to exit the game and re enter with the same septima.
 v0.4.2
