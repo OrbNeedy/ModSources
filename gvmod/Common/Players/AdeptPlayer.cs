@@ -5,6 +5,8 @@ using gvmod.Common.Systems;
 using gvmod.Common.Players.Septimas;
 using Terraria.ID;
 using Terraria.ModLoader.IO;
+using gvmod.Common.Players.Septimas.Abilities;
+using System.Collections.Generic;
 
 namespace gvmod.Common.Players
 {
@@ -13,27 +15,33 @@ namespace gvmod.Common.Players
         public Septima septima;
         public float maxSeptimalPower;
         public float septimalPower;
+        public float maxAbilityPower;
+        public float abilityPower;
         public int level;
         public int experience;
+        public List<string> activeSlot;
 
         public bool isUsingPrimaryAbility;
         public bool isUsingSecondaryAbility;
         public bool isUsingSpecialAbility;
 
         public bool secondaryInUse = false;
-        public int timeSinceSecondary = 1;
+        public int timeSinceSecondary = 0;
         public bool secondaryInCooldown = false;
         public bool isOverheated = false;
-        public int timeSinceAbility = 0;
+        public int timeSincePrimary = 0;
 
         public override void Initialize()
         {
             base.Initialize();
             maxSeptimalPower = 300;
             septimalPower = maxSeptimalPower;
+            maxAbilityPower = 3;
+            abilityPower = maxAbilityPower;
             septima = GetSeptima(Main.rand.Next(2));
             level = 1;
             experience = 0;
+            activeSlot = new List<string>() { "Astrasphere", "", "", ""};
         }
 
         public override void LoadData(TagCompound tag)
@@ -75,36 +83,84 @@ namespace gvmod.Common.Players
                 isUsingSecondaryAbility = true;
                 Main.NewText("Cooldown: " + timeSinceSecondary);
             }
+            if (KeybindSystem.special1.JustPressed)
+            {
+                Main.NewText("Special Cooldown: " + GetSpecial(activeSlot[0]).CooldownTimer);
+                Special special1 = GetSpecial(activeSlot[0]);
+                if (!special1.BeingUsed && abilityPower >= special1.ApUsage && !special1.InCooldown && (special1 != null || special1.Name != "") && !isUsingSpecialAbility)
+                {
+                    special1.SpecialTimer = 0;
+                }
+            }
+            if (KeybindSystem.special2.JustPressed)
+            {
+                Special special2 = GetSpecial(activeSlot[1]);
+                if (!special2.BeingUsed && abilityPower >= special2.ApUsage && !special2.InCooldown && (special2 != null || special2.Name != "") && !isUsingSpecialAbility)
+                {
+                    special2.SpecialTimer = 0;
+                }
+            }
+            if (KeybindSystem.special3.JustPressed)
+            {
+                Special special3 = GetSpecial(activeSlot[2]);
+                if (!special3.BeingUsed && abilityPower >= special3.ApUsage && !special3.InCooldown && (special3 != null || special3.Name != "") && !isUsingSpecialAbility)
+                {
+                    special3.SpecialTimer = 0;
+                }
+            }
+            if (KeybindSystem.special4.JustPressed)
+            {
+                Special special4 = GetSpecial(activeSlot[3]);
+                if (!special4.BeingUsed && abilityPower >= special4.ApUsage && !special4.InCooldown && (special4 != null || special4.Name != "") && !isUsingSpecialAbility)
+                {
+                    special4.SpecialTimer = 0;
+                }
+            }
+
         }
 
         public override void PostUpdateMiscEffects()
         {
-            if (septimalPower <= 0 && timeSinceAbility <= 10)
+            if (septimalPower <= 0 && timeSincePrimary <= 10)
             {
                 for (int i = 0; i < 10; i++)
                 {
                     Dust.NewDust(Player.position, 10, 10, DustID.Electric, 0, 0);
                 }
             }
-            if (isUsingPrimaryAbility && !isOverheated)
+            if (isUsingPrimaryAbility && !isOverheated && !isUsingSpecialAbility)
             {
                 septima.FirstAbilityEffects();
             }
-            if (secondaryInUse)
+            if (secondaryInUse && !isUsingSpecialAbility)
             {
                 septima.SecondAbilityEffects();
+            }
+            if (isUsingSpecialAbility)
+            {
+                for (int i = 0; i < activeSlot.Count; i++)
+                {
+                    GetSpecial(activeSlot[i])?.Effects();
+                }
             }
         }
         
         public override void PostUpdate()
         {
-            if (isUsingPrimaryAbility && !isOverheated)
+            if (isUsingPrimaryAbility && !isOverheated && !isUsingSpecialAbility)
             {
                 septima.FirstAbility();
             }
-            if (secondaryInUse)
+            if (secondaryInUse && !isUsingSpecialAbility)
             {
                 septima.SecondAbility();
+            }
+            if (isUsingSpecialAbility)
+            {
+                for (int i = 0; i < activeSlot.Count; i++)
+                {
+                    GetSpecial(activeSlot[i])?.Attack();
+                }
             }
             UpdateSeptimalPower();
             if (experience >= level * 500)
@@ -140,8 +196,13 @@ namespace gvmod.Common.Players
             {
                 secondaryInCooldown = false;
             }
+            if (abilityPower < maxAbilityPower)
+            {
+                abilityPower += (float)(1f/4020f);
+            }
             UpdateSeptimaForFirst();
             UpdateSeptimaForSecond();
+            UpdateSeptimaForSpecial();
         }
 
         public void UpdateSeptimaForFirst()
@@ -149,10 +210,10 @@ namespace gvmod.Common.Players
             if (isUsingPrimaryAbility && !isOverheated)
             {
                 if (septimalPower > 0) septimalPower -= septima.SpUsage;
-                timeSinceAbility = 0;
+                timeSincePrimary = 0;
             }
-            if (!isUsingPrimaryAbility || isOverheated) timeSinceAbility++;
-            if (timeSinceAbility >= 60)
+            if (!isUsingPrimaryAbility || isOverheated) timeSincePrimary++;
+            if (timeSincePrimary >= 60)
             {
                 if (!isOverheated)
                 {
@@ -163,7 +224,7 @@ namespace gvmod.Common.Players
                     septimalPower++;
                 }
                 if (septimalPower > maxSeptimalPower) septimalPower = maxSeptimalPower;
-                timeSinceAbility = 60;
+                timeSincePrimary = 60;
             }
         }
 
@@ -182,6 +243,18 @@ namespace gvmod.Common.Players
             } else
             {
                 if (timeSinceSecondary > septima.SecondaryCooldownTime) timeSinceSecondary = septima.SecondaryCooldownTime;
+            }
+        }
+
+        public void UpdateSeptimaForSpecial()
+        {
+            foreach (Special special in septima.Abilities)
+            {
+                special.Update();
+            }
+            if (isUsingSpecialAbility)
+            {
+                // Make invincible?
             }
         }
 
@@ -205,9 +278,17 @@ namespace gvmod.Common.Players
             };
         }
 
-        public bool GetOverheatedState()
+        public Special GetSpecial(string name)
         {
-            return isOverheated;
+            for (int i = 0; i < septima.Abilities.Count; i++)
+            {
+                Special temp = septima.Abilities[i];
+                if (temp.Name == name)
+                {
+                    return temp;
+                }
+            }
+            return null;
         }
     }
 }

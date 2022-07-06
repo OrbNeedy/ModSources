@@ -5,44 +5,43 @@ using gvmod.Content.Buffs;
 using gvmod.Content.Projectiles;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
+using gvmod.Common.Players.Septimas.Abilities;
 
 namespace gvmod.Common.Players.Septimas
 {
     internal class AzureStriker : Septima
     {
-        private float strikerSpUsage = 1f;
-        private int secondaryCooldown = 300;
-        private Vector2 velocityMultiplier = new Vector2(1, 1);
+        private int secondaryDuration = 15;
         private bool isFalling = false;
         public AzureStriker(AdeptPlayer adept, Player player) : base(adept, player)
         {
-            this.player = player;
-            this.adept = adept;
-            secondaryDuration = 0;
+            SpUsage = 1f;
+            SecondaryCooldownTime = 300;
         }
-
-        public override float SpUsage { get => strikerSpUsage; set => strikerSpUsage = value; }
 
         public override string Name => "Azure Striker";
 
-        public override int SecondaryCooldownTime { get => secondaryCooldown; set => secondaryCooldown = value; }
+        public override void InitializeAbilitiesList()
+        {
+            Abilities.Add(new Astrasphere(Player, Adept));
+        }
 
         public override void FirstAbilityEffects()
         {
-            if (player.wet)
+            if (Player.wet)
             {
-                strikerSpUsage = adept.maxSeptimalPower;
+                SpUsage = Adept.maxSeptimalPower;
                 return;
             }
             else
             {
-                strikerSpUsage = 1f;
+                SpUsage = 1f;
             }
             Vector2 pos = new Vector2(128);
             for (int i = 0; i < 360; i++)
             {
                 pos = pos.RotatedBy(MathHelper.ToRadians(1));
-                if (i % 5 == 0) Dust.NewDustDirect(player.Center + pos, 10, 10, DustID.MartianSaucerSpark, 0, 0, 0, Color.DeepSkyBlue);
+                if (i % 5 == 0) Dust.NewDustDirect(Player.Center + pos, 10, 10, DustID.MartianSaucerSpark, 0, 0, 0, Color.DeepSkyBlue);
             }
         }
 
@@ -58,12 +57,14 @@ namespace gvmod.Common.Players.Septimas
                     npc.AddBuff(ModContent.BuffType<StrikerElectrifiedDebuff>(), 10);
                 }
             }
-            if (player.velocity.Y > 0)
+            if (Player.velocity.Y > 0)
             {
                 isFalling = true;
+                Player.slowFall = true;
             } else
             {
                 isFalling = false;
+                Player.slowFall = false;
             }
         }
 
@@ -73,51 +74,53 @@ namespace gvmod.Common.Players.Septimas
             {
                 float xPos = Main.rand.NextFloat(-16, 16);
                 float yPos = Main.rand.NextFloat(-500, 500);
-                Dust.NewDust(player.Center + new Vector2(xPos, yPos), 10, 10, DustID.MartianSaucerSpark, 0, 0, 100, Color.DeepSkyBlue);
+                Dust.NewDust(Player.Center + new Vector2(xPos, yPos), 10, 10, DustID.MartianSaucerSpark, 0, 0, 100, Color.DeepSkyBlue);
             }
         }
 
         public override void SecondAbility()
         {
-            if (secondaryDuration <= 1 && adept.secondaryInUse)
+            if (SecondaryTimer <= 1 && Adept.secondaryInUse)
             {
-                Projectile.NewProjectile(player.GetSource_FromThis(), player.Center, new Vector2(0), ModContent.ProjectileType<Thunder>(), 50, 8, player.whoAmI);
+                Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, new Vector2(0), ModContent.ProjectileType<Thunder>(), 50, 8, Player.whoAmI);
             }
         }
 
         public override void MiscEffects()
         {
-            if (isFalling && adept.isUsingPrimaryAbility && !adept.isOverheated)
+            if (isFalling && Adept.isUsingPrimaryAbility && !Adept.isOverheated)
             {
-                velocityMultiplier.Y = 0.7f;
+                VelocityMultiplier = new Vector2(1f, 0.7f);
             }
             else
             {
-                if (adept.secondaryInUse)
+                if (Adept.secondaryInUse)
                 {
-                    velocityMultiplier *= 0f;
+                    Player.slowFall = true;
+                    VelocityMultiplier *= 0f;
                 } else
                 {
-                    velocityMultiplier = new Vector2(1f);
+                    VelocityMultiplier = new Vector2(1f);
+                    Player.slowFall = false;
                 }
             }
         }
 
         public override void Updates()
         {
-            if (adept.isUsingSecondaryAbility && adept.timeSinceSecondary >= secondaryCooldown)
+            if (Adept.isUsingSecondaryAbility && Adept.timeSinceSecondary >= SecondaryCooldownTime)
             {
-                secondaryDuration++;
-                if (secondaryDuration >= 15)
+                SecondaryTimer++;
+                if (SecondaryTimer >= secondaryDuration)
                 {
-                    adept.secondaryInUse = false;
-                    secondaryDuration = 0;
-                    adept.secondaryInCooldown = true;
-                    adept.timeSinceSecondary = 0;
-                    adept.isUsingSecondaryAbility = false;
+                    Adept.secondaryInUse = false;
+                    SecondaryTimer = 0;
+                    Adept.secondaryInCooldown = true;
+                    Adept.timeSinceSecondary = 0;
+                    Adept.isUsingSecondaryAbility = false;
                 }
             }
-            player.velocity *= velocityMultiplier;
+            Player.velocity *= VelocityMultiplier;
         }
 
         public List<NPC> GetNPCsInRadius(int radius)
@@ -127,7 +130,7 @@ namespace gvmod.Common.Players.Septimas
             {
                 var npc = Main.npc[i];
                 if (!npc.active && npc.life <= 0) continue;
-                if (Vector2.Distance(npc.Center, player.Center) > radius) continue;
+                if (Vector2.Distance(npc.Center, Player.Center) > radius) continue;
                 closeNPCs.Add(Main.npc[i]);
             }
             return closeNPCs;

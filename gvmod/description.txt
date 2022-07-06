@@ -18,7 +18,7 @@ Added secondary abilities. Your septima gets saved now! Feel free to exit the ga
 v0.4.2
 Added the ability for Azure Striker septima to slow their descent while using flashfield.
 v0.4.1
-Initial release.
+Initial test release.
 Added a new septima, Azure Thunderclap, just a better version of the Azure Striker for now.
 Added weakness to water to both septimas.
 v0.3.2
