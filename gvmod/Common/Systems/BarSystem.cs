@@ -11,13 +11,19 @@ namespace gvmod.Common.Systems
     {
         internal SPBar spBar;
         private UserInterface _spBar;
+        internal APBar apBar;
+        private UserInterface _apBar;
 
         public override void Load()
         {
             spBar = new SPBar();
             spBar.Activate();
+            apBar = new APBar();
+            apBar.Activate();
             _spBar = new UserInterface();
             _spBar.SetState(spBar);
+            _apBar = new UserInterface();
+            _spBar.SetState(apBar);
         }
 
         public override void UpdateUI(GameTime gameTime)

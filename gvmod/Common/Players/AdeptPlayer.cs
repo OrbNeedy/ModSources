@@ -85,10 +85,10 @@ namespace gvmod.Common.Players
             }
             if (KeybindSystem.special1.JustPressed)
             {
-                Main.NewText("Special Cooldown: " + GetSpecial(activeSlot[0]).CooldownTimer);
                 Special special1 = GetSpecial(activeSlot[0]);
                 if (!special1.BeingUsed && abilityPower >= special1.ApUsage && !special1.InCooldown && (special1 != null || special1.Name != "") && !isUsingSpecialAbility)
                 {
+                    abilityPower -= special1.ApUsage;
                     special1.SpecialTimer = 0;
                 }
             }
@@ -97,6 +97,7 @@ namespace gvmod.Common.Players
                 Special special2 = GetSpecial(activeSlot[1]);
                 if (!special2.BeingUsed && abilityPower >= special2.ApUsage && !special2.InCooldown && (special2 != null || special2.Name != "") && !isUsingSpecialAbility)
                 {
+                    abilityPower -= special2.ApUsage;
                     special2.SpecialTimer = 0;
                 }
             }
@@ -105,6 +106,7 @@ namespace gvmod.Common.Players
                 Special special3 = GetSpecial(activeSlot[2]);
                 if (!special3.BeingUsed && abilityPower >= special3.ApUsage && !special3.InCooldown && (special3 != null || special3.Name != "") && !isUsingSpecialAbility)
                 {
+                    abilityPower -= special3.ApUsage;
                     special3.SpecialTimer = 0;
                 }
             }
@@ -113,6 +115,7 @@ namespace gvmod.Common.Players
                 Special special4 = GetSpecial(activeSlot[3]);
                 if (!special4.BeingUsed && abilityPower >= special4.ApUsage && !special4.InCooldown && (special4 != null || special4.Name != "") && !isUsingSpecialAbility)
                 {
+                    abilityPower -= special4.ApUsage;
                     special4.SpecialTimer = 0;
                 }
             }

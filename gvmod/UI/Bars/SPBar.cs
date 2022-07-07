@@ -1,5 +1,4 @@
 ﻿using gvmod.Common.Players;
-using gvmod.Common.Systems;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
