@@ -20,6 +20,11 @@ namespace gvmod.Common.Players
         public int level;
         public int experience;
         public List<string> activeSlot;
+        //TODO: Make a method that changes these to increase the damage
+        public float genericDamageMult;
+        public float primaryDamageMult;
+        public float secondaryDamageMult;
+        public float specialDamageMult;
 
         public bool isUsingPrimaryAbility;
         public bool isUsingSecondaryAbility;
@@ -166,7 +171,7 @@ namespace gvmod.Common.Players
                 }
             }
             UpdateSeptimalPower();
-            if (experience >= level * 500)
+            if (experience >= 500 * (level*0.2))
             {
                 level++;
                 experience = 0;
@@ -178,6 +183,13 @@ namespace gvmod.Common.Players
         public float SeptimalPowerToFraction()
         {
             return septimalPower / maxSeptimalPower;
+        }
+
+        public float ExperienceToFraction()
+        {
+            float exp = experience;
+            float maxExp = level * 500;
+            return exp / maxExp;
         }
 
         public void UpdateSeptimalPower()

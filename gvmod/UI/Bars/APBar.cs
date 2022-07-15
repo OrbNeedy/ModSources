@@ -48,7 +48,7 @@ namespace gvmod.UI.Bars
                 spriteBatch.Draw(full, new Rectangle((int)apBarBack.Left.Pixels, (int)apBarBack.Top.Pixels, 16, 28), Color.White);
                 spriteBatch.Draw(full, new Rectangle((int)apBarBack.Left.Pixels + 22, (int)apBarBack.Top.Pixels, 16, 28), Color.White);
                 bars[2] = adept.abilityPower - 2;
-            }if(adept.abilityPower == 3)
+            }if(adept.abilityPower >= 3)
             {
                 spriteBatch.Draw(full, new Rectangle((int)apBarBack.Left.Pixels, (int)apBarBack.Top.Pixels, 16, 28), Color.White);
                 spriteBatch.Draw(full, new Rectangle((int)apBarBack.Left.Pixels + 22, (int)apBarBack.Top.Pixels, 16, 28), Color.White);

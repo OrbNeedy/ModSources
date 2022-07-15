@@ -18,7 +18,7 @@ namespace gvmod.Common.Players.Septimas.Abilities
             SpecialTimer = 1;
         }
 
-        public override int UnlockLevel => 1;
+        public override int UnlockLevel => 13;
 
         public override string Name => "Sparkcaliburg";
 

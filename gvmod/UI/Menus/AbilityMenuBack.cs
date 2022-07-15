@@ -4,6 +4,7 @@ using Terraria.UI;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.GameContent.UI.Elements;
+using gvmod.Common.Players;
 
 namespace gvmod.UI.Menus
 {

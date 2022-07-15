@@ -21,10 +21,12 @@ namespace gvmod.UI.Menus
         public SelectionOption selectionOption;
         public UIImageButton selectionRight;
         public UIImageButton selectionLeft;
-        public UIText text;
+        public UIText level;
         //TODO: implement cooldownFill
         //public UIImage cooldownFill;
-        //public Texture2D filling = ModContent.Request<Texture2D>("gvmod/Assets/Bars/APBarFilling", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+        //public Texture2D cooldownFilling = ModContent.Request<Texture2D>("gvmod/Assets/Bars/APBarFilling", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+        public Texture2D expFilling = (Texture2D)ModContent.Request<Texture2D>("gvmod/Assets/Bars/EXPBarFilling",
+            ReLogic.Content.AssetRequestMode.ImmediateLoad);
         public bool barReposition = false;
         public int editingSlot = 0;
         public bool selecting = false;
@@ -67,18 +69,16 @@ namespace gvmod.UI.Menus
             selectionOption.Height.Set(22, 0f);
             selectionOption.OnMouseDown += OnOptionClick;
 
-            text = new UIText("1", 0.8f);
-            text.Width.Set(x + 138, 0f);
-            text.Height.Set(y + 15, 0f);
-            text.Top.Set(y + 10, 0f);
-            text.Left.Set(x, 0f);
+            level = new UIText("1", 1.2f);
+            level.Width.Set(12, 0f);
+            level.Height.Set(16, 0f);
 
             Append(abilityMenuBack);
             Append(selectionMenu);
             Append(selectionLeft);
             Append(selectionRight);
             Append(selectionOption);
-            //Append level text here
+            Append(level);
             for (int i = 0; i < 4; i++)
             {
                 Append(abilitySlots[i]);
@@ -90,6 +90,7 @@ namespace gvmod.UI.Menus
             base.Draw(spriteBatch);
             var adept = Main.LocalPlayer.GetModPlayer<AdeptPlayer>();
             if (adept.septima.Name == "Human") Deactivate();
+            spriteBatch.Draw(expFilling, new Rectangle((int)(abilityMenuBack.Left.Pixels + 92), (int)(abilityMenuBack.Top.Pixels + 128), (int)(adept.ExperienceToFraction() * 46), 4), Color.White);
         }
 
         private void OnSlotClick(UIMouseEvent evt, UIElement listeningElement, int i)
@@ -141,6 +142,7 @@ namespace gvmod.UI.Menus
             var adept = Main.LocalPlayer.GetModPlayer<AdeptPlayer>();
             List<Special> posibleList = adept.septima.AvaliableSpecials();
             base.Update(gameTime);
+            level.SetText(adept.level.ToString());
             selectionOption.assignedSpecial = posibleList[specialIndex];
             for (int i = 0; i < adept.activeSlot.Count; i++)
             {
@@ -165,7 +167,7 @@ namespace gvmod.UI.Menus
                 Append(selectionLeft);
                 Append(selectionRight);
             }
-        }
+        }// spriteBatch.Draw(expFilling, new Rectangle((int)(Left.Pixels + 92), (int)(Top.Pixels + 128), (int)(adept.ExperienceToFraction() * 46), 4), Color.White);
 
         public void UpdatePositions()
         {
@@ -174,9 +176,9 @@ namespace gvmod.UI.Menus
             abilitySlots[1].Left.Set(abilityMenuBack.Left.Pixels + 76, 0);
             abilitySlots[1].Top.Set(abilityMenuBack.Top.Pixels + 8, 0);
             abilitySlots[2].Left.Set(abilityMenuBack.Left.Pixels + 8, 0);
-            abilitySlots[2].Top.Set(abilityMenuBack.Top.Pixels + 78, 0);
+            abilitySlots[2].Top.Set(abilityMenuBack.Top.Pixels + 68, 0);
             abilitySlots[3].Left.Set(abilityMenuBack.Left.Pixels + 70, 0);
-            abilitySlots[3].Top.Set(abilityMenuBack.Top.Pixels + 78, 0);
+            abilitySlots[3].Top.Set(abilityMenuBack.Top.Pixels + 68, 0);
 
             selectionMenu.Left.Set(abilityMenuBack.Left.Pixels, 0f);
             selectionMenu.Top.Set(abilityMenuBack.Top.Pixels + 40, 0f);
@@ -189,6 +191,9 @@ namespace gvmod.UI.Menus
 
             selectionRight.Left.Set(abilityMenuBack.Left.Pixels + 96, 0f);
             selectionRight.Top.Set(abilityMenuBack.Top.Pixels + 54, 0f);
+
+            level.Left.Set(abilityMenuBack.Left.Pixels + 38, 0f);
+            level.Top.Set(abilityMenuBack.Top.Pixels + 116, 0f);
         }
     }
 }
