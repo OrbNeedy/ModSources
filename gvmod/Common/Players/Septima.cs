@@ -48,5 +48,18 @@ namespace gvmod.Common.Players
         public abstract void MiscEffects();
 
         public abstract void Updates();
+
+        public List<Special> AvaliableSpecials()
+        {
+            List<Special> specials = new List<Special>();
+            for (int i = 0; i < abilities.Count; i++)
+            {
+                if (adept.level >= abilities[i].UnlockLevel)
+                {
+                    specials.Add(abilities[i]);
+                }
+            }
+            return specials;
+        }
     }
 }

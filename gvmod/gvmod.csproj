@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\Buttons\" />
+    <Folder Include="Assets\Icons\" />
     <Folder Include="Common\GlobalProjectiles\" />
   </ItemGroup>
 </Project>

@@ -41,7 +41,7 @@ namespace gvmod.Common.Players
             septima = GetSeptima(Main.rand.Next(2));
             level = 1;
             experience = 0;
-            activeSlot = new List<string>() { "Astrasphere", "", "", ""};
+            activeSlot = new List<string>() { "Astrasphere", "Sparkcaliburg", "Astrasphere", "Sparkcaliburg"};
         }
 
         public override void LoadData(TagCompound tag)
@@ -257,7 +257,8 @@ namespace gvmod.Common.Players
             }
             if (isUsingSpecialAbility)
             {
-                // Make invincible?
+                Player.immune = true;
+                Player.mouseInterface = true;
             }
         }
 

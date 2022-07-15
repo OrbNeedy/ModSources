@@ -40,7 +40,6 @@ namespace gvmod.Content.Projectiles
             {
                 Main.EntitySpriteDraw(thunder, new Vector2(Projectile.Center.X - Main.screenPosition.X, Projectile.Center.Y - Main.screenPosition.Y + (250 * i)), new Rectangle((int)(Projectile.position.X - Main.screenPosition.X), (int)(Projectile.position.Y - Main.screenPosition.Y + (250 * i)), 32, 250), Color.White, 0, new Vector2(Projectile.Center.X - Main.screenPosition.X, Projectile.Center.Y - Main.screenPosition.Y + (250 * i)), 1f, SpriteEffects.None, 0);
             }
-            //Main.spriteBatch.Draw(thunder, new Vector2(Projectile.Center.X - Main.screenPosition.X, Projectile.Center.Y - Main.screenPosition.Y + (250)), Color.White);
         }
     }
 }

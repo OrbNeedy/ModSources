@@ -50,7 +50,16 @@ namespace gvmod.Content.Projectiles
         {
             base.OnSpawn(source);
             Player player = Main.player[Projectile.owner];
-            
+            if (source == player.GetSource_FromThis())
+            {
+                if (player.GetModPlayer<AdeptPlayer>().septima.Name == "Azure Striker" || player.GetModPlayer<AdeptPlayer>().septima.Name == "Azure Thunderclap")
+                {
+                    aiForm = 1;
+                } else
+                {
+                    aiForm = 0;
+                }
+            }
         }
     }
 }

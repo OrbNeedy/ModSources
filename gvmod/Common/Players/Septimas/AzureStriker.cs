@@ -24,6 +24,7 @@ namespace gvmod.Common.Players.Septimas
         public override void InitializeAbilitiesList()
         {
             Abilities.Add(new Astrasphere(Player, Adept));
+            Abilities.Add(new Sparkcaliburg(Player, Adept));
         }
 
         public override void FirstAbilityEffects()
