@@ -7,6 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader.IO;
 using gvmod.Common.Players.Septimas.Abilities;
 using System.Collections.Generic;
+using System;
 
 namespace gvmod.Common.Players
 {
@@ -19,6 +20,8 @@ namespace gvmod.Common.Players
         public float abilityPower;
         public int level;
         public int experience;
+        public int maxEXP;
+        public int extraEXP;
         public List<string> activeSlot;
         //TODO: Make a method that changes these to increase the damage
         public float genericDamageMult;
@@ -46,7 +49,13 @@ namespace gvmod.Common.Players
             septima = GetSeptima(Main.rand.Next(2));
             level = 1;
             experience = 0;
-            activeSlot = new List<string>() { "Astrasphere", "Sparkcaliburg", "Astrasphere", "Sparkcaliburg"};
+            extraEXP = 0;
+            maxEXP = 1999999999;
+            genericDamageMult = 1;
+            primaryDamageMult = 1;
+            secondaryDamageMult = 1;
+            specialDamageMult = 1;
+            activeSlot = new List<string>() { "", "", "", ""};
         }
 
         public override void LoadData(TagCompound tag)
@@ -171,13 +180,30 @@ namespace gvmod.Common.Players
                 }
             }
             UpdateSeptimalPower();
-            if (experience >= 500 * (level*0.2))
+            maxEXP = (int)Math.Pow(level * 60, 1.8f);
+            if (experience >= maxEXP)
             {
                 level++;
+                if (experience > maxEXP)
+                {
+                    extraEXP = experience - maxEXP;
+                } 
                 experience = 0;
+            } else
+            {
+                experience += extraEXP;
+                extraEXP = 0;
             }
             septima.Updates();
             septima.MiscEffects();
+        }
+
+        public void UpdateLevelMultipliers()
+        {
+            genericDamageMult = (1 + level * 0.2f);
+            primaryDamageMult = (1 + level * 0.5f);
+            secondaryDamageMult = (1 + level * 0.5f);
+            specialDamageMult = (1 + level * 0.4f);
         }
 
         public float SeptimalPowerToFraction()
@@ -188,7 +214,7 @@ namespace gvmod.Common.Players
         public float ExperienceToFraction()
         {
             float exp = experience;
-            float maxExp = level * 500;
+            float maxExp = maxEXP;
             return exp / maxExp;
         }
 

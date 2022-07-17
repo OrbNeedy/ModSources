@@ -47,12 +47,14 @@ namespace gvmod.Content.Items.Drops
         public override void OnConsumeItem(Player player)
         {
             player.GetModPlayer<AdeptPlayer>().experience += experience;
+            Main.NewText("Experience gained! Total experience: " + player.GetModPlayer<AdeptPlayer>().experience);
             base.OnConsumeItem(player);
         }
 
         public override bool OnPickup(Player player)
         {
             player.GetModPlayer<AdeptPlayer>().experience += experience;
+            Main.NewText("Experience gained! Total experience: " + player.GetModPlayer<AdeptPlayer>().experience);
             return false;
         }
     }

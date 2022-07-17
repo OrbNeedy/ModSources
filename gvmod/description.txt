@@ -9,8 +9,12 @@ Azure Thunderclap: The same as Azure Striker, but stronger overall, and can also
 Every time you use a septima, you use up some sp, and if it reaches 0, you won't be able to use it until you cool down.
 Check mod controls, it's important.
 
-Multiplayer not supported.
+Multiplayer very not supported.
 
+v0.6.1
+Balanced leveling, it now doesn't require items to be collected.
+v0.6.0
+Specials and level system added, leveling is still very unbalanced.
 v0.5.1
 Minor UI changes.
 v0.5.0
